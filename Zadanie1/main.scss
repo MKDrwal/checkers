@@ -2,13 +2,49 @@ $boardSize: 45vw; //default value
 $fieldColorLight: white;
 $fieldColorDark: red;
 
+$screen-large: 1920px;
+$screen-medium: 1280px;
+$screen-small: 960px;
+$screen-xsmall: 640px;
+$screen-xxsmall: 350px;
+
+@mixin sizingBoard($boardSize) {
+    #checkersBoard {
+        width: $boardSize;
+        height:$boardSize;
+        .row {
+            width: $boardSize;
+            height: $boardSize/8;
+            .field {
+                height: $boardSize/8;
+                width:$boardSize/8;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: $screen-large) {
+    @include sizingBoard(800px);
+}
+
+@media screen and (max-width: $screen-medium) {
+    @include sizingBoard(600px);
+}
+@media screen and (max-width: $screen-small) {
+    @include sizingBoard(400px);
+}
+@media screen and (max-width: $screen-xsmall) {
+    @include sizingBoard(75vw);
+}
+@media screen and (max-width: $screen-xxsmall) {
+    @include sizingBoard(100vw);
+}
+
 body {
     background-color: grey;
 }
 
 #checkersBoard {
-    width: $boardSize;
-    height:$boardSize;
     background-color: $fieldColorLight;
     position: absolute;
     top: 50%;
@@ -16,9 +52,6 @@ body {
     transform: translate(-50%, -50%);
 
     .row {
-        width: $boardSize;
-        height: $boardSize/8;
-
         &:nth-child(even) .field:nth-child(odd) {
             background-color: $fieldColorDark;
         }
@@ -28,8 +61,6 @@ body {
     }
 
     .field {
-        height: $boardSize/8;
-        width:$boardSize/8;
         float: left;
     }
 
