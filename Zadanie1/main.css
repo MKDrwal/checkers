@@ -1,0 +1,32 @@
+body {
+  background-color: grey;
+}
+
+#checkersBoard {
+  width: 45vw;
+  height: 45vw;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#checkersBoard .row {
+  width: 45vw;
+  height: 5.625vw;
+}
+
+#checkersBoard .row:nth-child(even) .field:nth-child(odd) {
+  background-color: red;
+}
+
+#checkersBoard .row:nth-child(odd) .field:nth-child(even) {
+  background-color: red;
+}
+
+#checkersBoard .field {
+  height: 5.625vw;
+  width: 5.625vw;
+  float: left;
+}

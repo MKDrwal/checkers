@@ -1,0 +1,36 @@
+$boardSize: 45vw; //default value
+$fieldColorLight: white;
+$fieldColorDark: red;
+
+body {
+    background-color: grey;
+}
+
+#checkersBoard {
+    width: $boardSize;
+    height:$boardSize;
+    background-color: $fieldColorLight;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .row {
+        width: $boardSize;
+        height: $boardSize/8;
+
+        &:nth-child(even) .field:nth-child(odd) {
+            background-color: $fieldColorDark;
+        }
+        &:nth-child(odd) .field:nth-child(even) {
+            background-color: $fieldColorDark;
+        }
+    }
+
+    .field {
+        height: $boardSize/8;
+        width:$boardSize/8;
+        float: left;
+    }
+
+}
