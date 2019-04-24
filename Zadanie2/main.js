@@ -1,4 +1,26 @@
 $(function() {
+
+    let allFields = $('#checkersBoard .field');
+    let allRows = $('#checkersBoard .row');
+    let fields;
+    console.log(allFields);
+
+    for(i=0;i<3;i++){
+        z = (i%2) ? 1 : 0;
+        fields = $(allRows[i]).find('.field');
+        for(;z<8; z+=2){
+            $(fields[z]).append('<div class="pawn first"></div>');
+        }
+    }
+
+    for(i=5;i<8;i++){
+        z = (i%2) ? 1 : 0;
+        fields = $(allRows[i]).find('.field');
+        for(;z<8; z+=2){
+            $(fields[z]).append('<div class="pawn second"></div>');
+        }
+    }
+
     $('#checkersBoard .field').sortable({
         connectWith: ".proposal",
     });
@@ -8,7 +30,7 @@ $(function() {
         let pawn = $(this);
         let pawnRow = pawn.closest('.row');
         let pawnRowId = pawnRow.index();
-        let allRows = $('#checkersBoard .row');
+        //let allRows = $('#checkersBoard .row');
 
         if(pawnRowId > 0 ) {
             let row = $(allRows[pawnRowId - 1]);
