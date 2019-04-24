@@ -1,0 +1,136 @@
+@media screen and (max-width: 1920px) {
+  #checkersBoard {
+    width: 800px;
+    height: 800px;
+  }
+  #checkersBoard .row {
+    width: 800px;
+    height: 100px;
+  }
+  #checkersBoard .row .field {
+    height: 100px;
+    width: 100px;
+  }
+  #checkersBoard .pawn {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  #checkersBoard {
+    width: 600px;
+    height: 600px;
+  }
+  #checkersBoard .row {
+    width: 600px;
+    height: 75px;
+  }
+  #checkersBoard .row .field {
+    height: 75px;
+    width: 75px;
+  }
+  #checkersBoard .pawn {
+    height: 60px;
+    width: 60px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  #checkersBoard {
+    width: 400px;
+    height: 400px;
+  }
+  #checkersBoard .row {
+    width: 400px;
+    height: 50px;
+  }
+  #checkersBoard .row .field {
+    height: 50px;
+    width: 50px;
+  }
+  #checkersBoard .pawn {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  #checkersBoard {
+    width: 75vw;
+    height: 75vw;
+  }
+  #checkersBoard .row {
+    width: 75vw;
+    height: 9.375vw;
+  }
+  #checkersBoard .row .field {
+    height: 9.375vw;
+    width: 9.375vw;
+  }
+  #checkersBoard .pawn {
+    height: 7.5vw;
+    width: 7.5vw;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  #checkersBoard {
+    width: 100vw;
+    height: 100vw;
+  }
+  #checkersBoard .row {
+    width: 100vw;
+    height: 12.5vw;
+  }
+  #checkersBoard .row .field {
+    height: 12.5vw;
+    width: 12.5vw;
+  }
+  #checkersBoard .pawn {
+    height: 10vw;
+    width: 10vw;
+  }
+}
+
+body {
+  background-color: grey;
+}
+
+#checkersBoard {
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#checkersBoard .row:nth-child(even) .field:nth-child(odd) {
+  background-color: red;
+}
+
+#checkersBoard .row:nth-child(odd) .field:nth-child(even) {
+  background-color: red;
+}
+
+#checkersBoard .field {
+  float: left;
+  position: relative;
+}
+
+.pawn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
+.pawn.first {
+  background-color: #38e686;
+}
+
+.pawn.second {
+  background-color: #e72ecf;
+}
