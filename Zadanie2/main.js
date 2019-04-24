@@ -36,16 +36,31 @@ $(function() {
             let row = $(allRows[pawnRowId - 1]);
 
             let fields = row.find('.field');
-            $(fields[pawn.parent().index() + 1]).addClass('proposal').append('<div class="pawn shadow"></div>');
-            $(fields[pawn.parent().index() - 1]).addClass('proposal').append('<div class="pawn shadow"></div>');
+
+            let right = $(fields[pawn.parent().index() + 1]);
+            if(right.children().length == 0){
+                right.addClass('proposal').append('<div class="pawn shadow"></div>');
+            }
+            let left = $(fields[pawn.parent().index() - 1]);
+            if(left.children().length == 0){
+                left.addClass('proposal').append('<div class="pawn shadow"></div>');
+            }
+            
         }
 
         if(pawnRowId < 7){
             let row = $(allRows[pawnRowId + 1]);
 
             let fields = row.find('.field');
-            $(fields[pawn.parent().index() + 1]).addClass('proposal').append('<div class="pawn shadow"></div>');
-            $(fields[pawn.parent().index() - 1]).addClass('proposal').append('<div class="pawn shadow"></div>');
+           
+            let right = $(fields[pawn.parent().index() + 1]);
+            if(right.children().length == 0){
+                right.addClass('proposal').append('<div class="pawn shadow"></div>');
+            }
+            let left = $(fields[pawn.parent().index() - 1]);
+            if(left.children().length == 0){
+                left.addClass('proposal').append('<div class="pawn shadow"></div>');
+            }
         }
     });
 
