@@ -1,14 +1,5 @@
-<!doctype html>
-<html lang="pl">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="main.css">
-
-    <title>HTML + CSS</title>
-  </head>
-  <body>
+{% extends 'base.html.twig' %}
+{% block body %}
     <div id="checkersBoard">
         <div class="row">
             <div class="field"></div>
@@ -91,9 +82,4 @@
             <div class="field"></div>
         </div>
     </div>
-
-    <script src="jquery-3.4.0.min.js"></script>
-    <script src="jquery-ui.min.js"></script>
-    <script src="main.js"></script>
-  </body>
-</html>
+{% endblock %}
