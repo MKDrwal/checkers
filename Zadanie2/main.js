@@ -1,6 +1,10 @@
 $(function() {
     let allRows = $('#checkersBoard .row');
     let fields;
+    let points = {
+        'first': 0,
+        'second': 0
+    }
 
     for(i=0;i<3;i++){
         z = (i%2) ? 1 : 0;
@@ -63,10 +67,17 @@ $(function() {
         $('.proposal').removeClass('proposal').find('.shadow').remove();
         let shot = $('.shot');
         if(shot.length > 0){
-            
+
             let target = $('.target');
             if(shot.children().length > 0){
-                $(target.children()[0]).remove();
+                let child = $(target.children()[0]);
+                if(child.hasClass('first')){
+                    points.second += 1;
+                } else {
+                    points.first += 1;
+                }
+                child.remove();
+                console.log(points);
             }
             shot.removeClass('shot');
             target.removeClass('target');
