@@ -9,12 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function showWelcomePage() {
 
         return $this->render(
-          'template/board.html.twig'
+          'home/welcome.html.twig'
         );
     }
 }
