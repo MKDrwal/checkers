@@ -48,10 +48,6 @@ $screen-xxsmall: 350px;
     @include sizingBoard(100vw);
 }
 
-body {
-    background-color: grey;
-}
-
 #checkersBoard {
     background-color: $fieldColorLight;
     position: absolute;
