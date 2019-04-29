@@ -1,0 +1,54 @@
+$boardSize: 45vw; //default value
+$fieldColorLight: white;
+$fieldColorDark: red;
+
+$borderSize: 6px;
+
+$fistPawnColor: rgb(56, 230, 134);
+$secondPawnColor: rgb(231, 46, 207);
+
+#checkersBoard {
+  background-color: $fieldColorLight;
+  margin: 0 auto;
+  border: $borderSize/2 solid black;
+  box-sizing: border-box;
+
+  .row {
+    margin: 0 !important;
+    box-sizing: border-box;
+    width: 100%;
+    height: 12.5%;
+    &:nth-child(even) .field:nth-child(odd) {
+      background-color: $fieldColorDark;
+    }
+    &:nth-child(odd) .field:nth-child(even) {
+      background-color: $fieldColorDark;
+    }
+  }
+
+  .field {
+    height: 100%;
+    width:  12.5%;
+    box-sizing: border-box;
+    float: left;
+    position: relative;
+  }
+
+}
+.pawn {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  border: $borderSize/3 px solid black;
+  height: 80%;
+  width:  80%;
+
+  &.first{
+    background-color: $fistPawnColor;
+  }
+  &.second{
+    background-color: $secondPawnColor;
+  }
+}
