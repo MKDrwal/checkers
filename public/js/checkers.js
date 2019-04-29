@@ -5,6 +5,10 @@ $(function() {
         'first': 0,
         'second': 0
     }
+    changeSize();
+    $(window).on('resize', function () {
+        changeSize()
+    });
 
     for(i=0;i<3;i++){
         z = (i%2) ? 1 : 0;
@@ -84,3 +88,11 @@ $(function() {
         }
     });
 });
+
+function changeSize() {
+    let checkersBoard = $('#checkersBoard');
+    let containerCheckersBoard = checkersBoard.parent();
+
+     checkersBoard.width(containerCheckersBoard.width()).height(containerCheckersBoard.width());
+
+}
