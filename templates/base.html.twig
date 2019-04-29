@@ -11,14 +11,18 @@
         {% endblock %}
     </head>
     <body>
+        {% block navbar %}
+            {% include 'elements/navbar.html.twig' %}
+        {% endblock %}
         {% block body %}
         {% endblock %}
 
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/bootstrap.js"></script>
         {% block javascripts %}
-            <script src="js/jquery-3.4.0.min.js"></script>
-            <script src="js/jquery-ui.min.js"></script>
-            <script src="js/bootstrap.js"></script>
-            <script src="js/main.js"></script>
+
         {% endblock %}
+        <script src="js/main.js"></script>
     </body>
 </html>
