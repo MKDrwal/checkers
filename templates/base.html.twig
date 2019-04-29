@@ -6,8 +6,8 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block stylesheets %}
-            <link rel="stylesheet" href="css/bootstrap.min.css">
-            <link rel="stylesheet" href="css/main.min.css">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
         {% endblock %}
     </head>
     <body>
@@ -17,12 +17,11 @@
         {% block body %}
         {% endblock %}
 
-        <script src="js/jquery-3.4.0.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/bootstrap.js"></script>
         {% block javascripts %}
-
+            <script src="{{ asset('js/jquery-3.4.0.min.js') }}"></script>
+            <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
         {% endblock %}
-        <script src="js/main.js"></script>
     </body>
 </html>
