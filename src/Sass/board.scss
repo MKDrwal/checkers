@@ -2,7 +2,7 @@ $boardSize: 45vw; //default value
 $fieldColorLight: white;
 $fieldColorDark: red;
 
-$borderSize: 6px;
+$borderSize: 4px;
 
 $fistPawnColor: rgb(56, 230, 134);
 $secondPawnColor: rgb(231, 46, 207);
@@ -41,7 +41,7 @@ $secondPawnColor: rgb(231, 46, 207);
   left: 50%;
   transform: translate(-50%,-50%);
   border-radius: 50%;
-  border: $borderSize/3 px solid black;
+  border: $borderSize/3 solid black;
   height: 80%;
   width:  80%;
 
@@ -50,5 +50,8 @@ $secondPawnColor: rgb(231, 46, 207);
   }
   &.second{
     background-color: $secondPawnColor;
+  }
+  &.shadow {
+    position: absolute;
   }
 }
