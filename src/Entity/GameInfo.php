@@ -6,9 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GameInfoRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class GameInfo
 {
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedDate() {
+        $this->create_date = new \DateTime();
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
