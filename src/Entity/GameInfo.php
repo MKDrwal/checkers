@@ -17,11 +17,6 @@ class GameInfo
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=13)
-     */
-    private $gamecode;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $first_player;
@@ -54,18 +49,6 @@ class GameInfo
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getGamecode(): ?string
-    {
-        return $this->gamecode;
-    }
-
-    public function setGamecode(string $gamecode): self
-    {
-        $this->gamecode = $gamecode;
-
-        return $this;
     }
 
     public function getFirstPlayer(): ?string
