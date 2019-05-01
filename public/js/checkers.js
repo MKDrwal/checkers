@@ -1,45 +1,36 @@
+let lastLog;
+let allRows;
+
+changeSize();
+$(window).on('resize', function () {
+    changeSize()
+});
+
 $(function() {
-    let allRows = $('#checkersBoard .row');
-    let fields;
-    let points = {
-        'first': 0,
-        'second': 0
-    }
-    changeSize();
-    $(window).on('resize', function () {
-        changeSize()
-    });
+    allRows = $('#checkersBoard .row');
 
-    for(i=0;i<3;i++){
-        z = (i%2) ? 1 : 0;
-        fields = $(allRows[i]).find('.field');
-        for(;z<8; z+=2){
-            $(fields[z]).append('<div class="pawn first"></div>');
-        }
-    }
+    startNewGame();
 
-    for(i=5;i<8;i++){
-        z = (i%2) ? 1 : 0;
-        fields = $(allRows[i]).find('.field');
-        for(;z<8; z+=2){
-            $(fields[z]).append('<div class="pawn second"></div>');
-        }
-    }
-
-    $('#checkersBoard .field').sortable({
-        connectWith: ".proposal",
-    });
-    $('#checkersBoard .field').disableSelection();
-
-    $('.pawn').mousedown(function () {
+    $('.pawn').click(function () {
         let pawn = $(this);
         let pawnRowId = pawn.closest('.row').index();
 
-        if(pawn.hasClass('first')){
-            direction = 1;
-        } else {
-            direction = 0;
+
+        if(!pawn.hasClass(lastLog.nextTurn)){
+            return null;
         }
+
+        if(!pawn.hasClass('active')){
+            $('#checkersBoard .active').removeClass('active')
+            pawn.addClass('active')
+        }
+
+        //if this isnt move remove old proposal
+        if(!pawn.hasClass('shadow')){
+            cleanProposal();
+        }
+
+        direction = pawn.hasClass('first') ? 1 : 0;
 
         if((direction == 1 && pawnRowId < 7) || (direction == 0 && pawnRowId > 0)){
             let row = $(allRows[(direction == 1) ? pawnRowId + 1 : pawnRowId - 1]);
@@ -48,51 +39,119 @@ $(function() {
             [1, -1].forEach(function(elem) {
 
                 field = $(fields[pawn.parent().index() + elem]);
-                if(field.children().length == 0){
+                if(field.children().length === 0){
                     field.addClass('proposal').append('<div class="pawn shadow"></div>');
                 } else {
                     occupated = $(field.children()[0]);
                     if((pawn.hasClass('first') && occupated.hasClass('second')) || (pawn.hasClass('second') && occupated.hasClass('first'))) {
 
-                        fieldsO = $(allRows[(direction == 1) ? pawnRowId + 2 : pawnRowId - 2]).find('.field');
-                        fieldShot = $(fieldsO[pawn.parent().index() + ((elem == 1) ? 2 : -2)]);
+                        fieldsO = $(allRows[(direction === 1) ? pawnRowId + 2 : pawnRowId - 2]).find('.field');
+                        fieldShot = $(fieldsO[pawn.parent().index() + ((elem === 1) ? 2 : -2)]);
 
-                        if(fieldShot.children().length == 0){
+                        if(fieldShot.children().length === 0){
                             fieldShot.addClass('proposal shot').append('<div class="pawn shadow "></div>');
                             field.addClass('target');
                         }
                     }
                 }
             });
-        }
-    });
 
-    $(document).mouseup(function(){
-        $('.proposal').removeClass('proposal').find('.shadow').remove();
-        let shot = $('.shot');
-        if(shot.length > 0){
-
-            let target = $('.target');
-            if(shot.children().length > 0){
-                let child = $(target.children()[0]);
-                if(child.hasClass('first')){
-                    points.second += 1;
-                } else {
-                    points.first += 1;
-                }
-                child.remove();
-                console.log(points);
-            }
-            shot.removeClass('shot');
-            target.removeClass('target');
+            $('.proposal').click(function () {
+                $(this).append($('#checkersBoard .active').detach());
+                $(this).off('click');
+                endStep();
+            });
         }
     });
 });
+
+function endStep() {
+    cleanProposal();
+
+    let lastPawn = $('#checkersBoard .active').removeClass('active');
+
+    lastLog.nextTurn = (lastPawn.hasClass('first')) ? 'second' : 'first';
+    lastLog.step++;
+
+    let shot = $('.shot');
+    if(shot.length > 0){
+
+        let target = $('.target');
+        if(shot.children().length > 0){
+            let child = $(target.children()[0]);
+            if(child.hasClass('first')){
+                lastLog.points.second += 1;
+            } else {
+                lastLog.points.first += 1;
+            }
+            child.remove();
+            console.log(points);
+        }
+        shot.removeClass('shot');
+        target.removeClass('target');
+    }
+
+    console.log(lastLog)
+}
+
+function cleanProposal() {
+    $('#checkersBoard .proposal').removeClass('proposal').find('.shadow').remove();
+}
 
 function changeSize() {
     let checkersBoard = $('#checkersBoard');
     let containerCheckersBoard = checkersBoard.parent();
 
-     checkersBoard.width(containerCheckersBoard.width()).height(containerCheckersBoard.width());
+    checkersBoard.width(containerCheckersBoard.width()).height(containerCheckersBoard.width());
 
+}
+
+function startNewGame(size = 3) {
+    lastLog = {
+        'step' : 0,
+        'nextTurn': 'first',
+        'points': {
+            'first': 0,
+            'second': 0
+        },
+        'board': generateDefaultBoard(size),
+    };
+
+    generateBoardFromArray(lastLog.board);
+}
+
+function generateDefaultBoard(countRow = 3) {
+    let arrayBoard = [];
+
+    if(countRow < 1 || countRow > 3){
+        countRow = 3;
+    }
+
+    for(i=0;i < 8; i++){
+        row = [];
+
+        if(i < countRow || i > (7-countRow)){
+            z = i%2 ? 1 : 0;
+            for(x=0;x<8;x++){
+                row.push((x%2 === z ? (i < countRow ? 1 : 2) : 0));
+            }
+        } else {
+            row = [0,0,0,0,0,0,0,0];
+        }
+
+        arrayBoard.push(row);
+    }
+
+    return arrayBoard;
+}
+
+function generateBoardFromArray(board) {
+    board.forEach(function (row, rowId) {
+        let fields = $(allRows[rowId]).children();
+        row.forEach(function (field, fieldId) {
+            if(field){
+                $(fields[fieldId]).append('<div class="pawn '+ (field === 1 ? 'first' : 'second') +'"></div>')
+            }
+        });
+    });
 }
