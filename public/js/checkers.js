@@ -1,4 +1,5 @@
 let lastLog;
+let gameInfo;
 let allRows;
 
 changeSize();
@@ -9,6 +10,9 @@ $(window).on('resize', function () {
 $(function() {
     allRows = $('#checkersBoard .row');
 
+    gameInfo = getCookie('gameinfo');
+    gameInfo = JSON.parse(gameInfo);
+
     startNewGame();
 
     $('.pawn').click(function () {
@@ -16,7 +20,7 @@ $(function() {
         let pawnRowId = pawn.closest('.row').index();
 
 
-        if(!pawn.hasClass(lastLog.nextTurn)){
+        if(!pawn.hasClass(lastLog.next_turn)){
             return null;
         }
 
@@ -66,12 +70,28 @@ $(function() {
     });
 });
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 function endStep() {
     cleanProposal();
 
     let lastPawn = $('#checkersBoard .active').removeClass('active');
 
-    lastLog.nextTurn = (lastPawn.hasClass('first')) ? 'second' : 'first';
+    lastLog.next_turn = (lastPawn.hasClass('first')) ? 'second' : 'first';
     lastLog.step++;
 
     let shot = $('.shot');
@@ -120,16 +140,28 @@ function changeSize() {
 
 }
 
+function saveLog() {
+    $.ajax({
+        type: 'POST',
+        data: {'gameLog': lastLog},
+        url: '/game/saveLog',
+        success:function(data) {
+            alert('zapisano');
+        }
+    });
+}
+
 function startNewGame(size = 3) {
     lastLog = {
+        'gameInfoId': gameInfo.id,
         'step' : 0,
         'nextTurn': 'first',
-        'points': {
-            'first': 0,
-            'second': 0
-        },
+        'pointsFirst': 0,
+        'pointsSecond': 0,
         'board': generateDefaultBoard(size),
     };
+
+    saveLog();
 
     generateBoardFromArray(lastLog.board);
 }

@@ -5,8 +5,10 @@ namespace App\Controller;
 
 
 use App\Entity\GameInfo;
+use App\Entity\GameLog;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -42,7 +44,24 @@ class GameController extends AbstractController
     /**
      * @Route("/saveLog", name="gameSaveLog")
      */
-    public function saveGameLog(){
+    public function saveGameLog(Request $request){
+        $entityManager = $this->getDoctrine()->getManager();
+        $gameLog = new GameLog();
+
+        $tmp_gameLog = $request->get('gameLog');
+
+        $tmp_gameLog['board'] = json_encode($tmp_gameLog['board']);
+
+        foreach ($tmp_gameLog as $prop => $value){
+            $method = sprintf('set%s', ucwords($prop));
+
+            $gameLog->$method($value);
+        }
+
+        $entityManager->persist($gameLog);
+
+        $entityManager->flush();
+
         $response = new JsonResponse(['status' => 'saved']);
 
         return $response;
