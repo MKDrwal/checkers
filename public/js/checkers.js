@@ -20,7 +20,7 @@ $(function() {
         let pawnRowId = pawn.closest('.row').index();
 
 
-        if(!pawn.hasClass(lastLog.next_turn)){
+        if(!pawn.hasClass(lastLog.nextTurn)){
             return null;
         }
 
@@ -36,8 +36,8 @@ $(function() {
 
         direction = pawn.hasClass('first') ? 1 : 0;
 
-        if((direction == 1 && pawnRowId < 7) || (direction == 0 && pawnRowId > 0)){
-            let row = $(allRows[(direction == 1) ? pawnRowId + 1 : pawnRowId - 1]);
+        if((direction === 1 && pawnRowId < 7) || (direction === 0 && pawnRowId > 0)){
+            let row = $(allRows[(direction === 1) ? pawnRowId + 1 : pawnRowId - 1]);
             let fields = row.find('.field');
 
             let t = 1;
@@ -91,7 +91,7 @@ function endStep() {
 
     let lastPawn = $('#checkersBoard .active').removeClass('active');
 
-    lastLog.next_turn = (lastPawn.hasClass('first')) ? 'second' : 'first';
+    lastLog.nextTurn = (lastPawn.hasClass('first')) ? 'second' : 'first';
     lastLog.step++;
 
     let shot = $('.shot');
@@ -115,9 +115,9 @@ function endStep() {
                 }
             });
             if(child.hasClass('first')){
-                lastLog.points.second += 1;
+                lastLog.pointsSecond += 1;
             } else {
-                lastLog.points.first += 1;
+                lastLog.pointsFirst += 1;
             }
             child.remove();
         }
@@ -125,7 +125,31 @@ function endStep() {
         target.removeClass('target');
     }
 
-    console.log(lastLog)
+    lastLog.board = saveBoardToArray();
+
+    saveLog();
+}
+
+function saveBoardToArray() {
+    let board = [];
+
+    $('#checkersBoard').children().toArray().forEach(function (row) {
+        let rowField = [];
+        $(row).children().toArray().forEach(function (field) {
+            field = $(field);
+            if(field.find('.first').length > 0){
+                rowField.push(1);
+            } else if (field.find('.second').length > 0) {
+                rowField.push(2);
+            } else {
+                rowField.push(0);
+            }
+        });
+
+        board.push(rowField);
+    });
+
+    return board;
 }
 
 function cleanProposal() {
