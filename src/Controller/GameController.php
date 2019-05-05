@@ -38,4 +38,13 @@ class GameController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/saveLog", name="gameSaveLog")
+     */
+    public function saveGameLog(){
+        $response = new JsonResponse(['status' => 'saved']);
+
+        return $response;
+    }
 }
