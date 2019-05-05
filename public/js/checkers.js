@@ -70,6 +70,13 @@ $(function() {
     });
 });
 
+function setCookie(cname, arrayValue) {
+    var d = new Date();
+    d.setTime(d.getTime() + (60*60*24*30));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + JSON.stringify(arrayValue) + ";" + expires + ";path=/";
+}
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -170,7 +177,7 @@ function saveLog() {
         data: {'gameLog': lastLog},
         url: '/game/saveLog',
         success:function(data) {
-            alert('zapisano');
+            setCookie('gamelog', lastLog);
         }
     });
 }
