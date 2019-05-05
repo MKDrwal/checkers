@@ -41,6 +41,11 @@ class GameLog
      */
     private $board;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $GameInfoId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,18 @@ class GameLog
     public function setBoard($board): self
     {
         $this->board = $board;
+
+        return $this;
+    }
+
+    public function getGameInfoId(): ?int
+    {
+        return $this->GameInfoId;
+    }
+
+    public function setGameInfoId(int $GameInfoId): self
+    {
+        $this->GameInfoId = $GameInfoId;
 
         return $this;
     }
