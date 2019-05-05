@@ -36,6 +36,7 @@ $(function() {
             let row = $(allRows[(direction == 1) ? pawnRowId + 1 : pawnRowId - 1]);
             let fields = row.find('.field');
 
+            let t = 1;
             [1, -1].forEach(function(elem) {
 
                 field = $(fields[pawn.parent().index() + elem]);
@@ -49,8 +50,8 @@ $(function() {
                         fieldShot = $(fieldsO[pawn.parent().index() + ((elem === 1) ? 2 : -2)]);
 
                         if(fieldShot.children().length === 0){
-                            fieldShot.addClass('proposal shot').append('<div class="pawn shadow "></div>');
-                            field.addClass('target');
+                            fieldShot.addClass('proposal shot').attr('data-shot', t).append('<div class="pawn shadow "></div>');
+                            field.addClass('target').attr('data-target', t++);
                         }
                     }
                 }
@@ -76,16 +77,29 @@ function endStep() {
     let shot = $('.shot');
     if(shot.length > 0){
 
+        shot.toArray().every(function (elem) {
+           if($(elem).children().length > 0) {
+               shot = $(elem);
+               return false;
+           } else {
+               return true;
+           }
+        });
+
         let target = $('.target');
         if(shot.children().length > 0){
-            let child = $(target.children()[0]);
+            let child;
+            target.toArray().forEach(function (elem) {
+                if ($(elem).data('target') === shot.data('shot')){
+                    child = $($(elem).children()[0]);
+                }
+            });
             if(child.hasClass('first')){
                 lastLog.points.second += 1;
             } else {
                 lastLog.points.first += 1;
             }
             child.remove();
-            console.log(points);
         }
         shot.removeClass('shot');
         target.removeClass('target');
