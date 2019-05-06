@@ -49,8 +49,9 @@ class GameController extends AbstractController
         $gameLog = new GameLog();
 
         $tmp_gameLog = $request->get('gameLog');
-
-        $tmp_gameLog['board'] = json_encode($tmp_gameLog['board']);
+        if(isset($tmp_gameLog['id'])){
+            unset($tmp_gameLog['id']);
+        }
 
         foreach ($tmp_gameLog as $prop => $value){
             $method = sprintf('set%s', ucwords($prop));
@@ -59,11 +60,21 @@ class GameController extends AbstractController
         }
 
         $entityManager->persist($gameLog);
-
         $entityManager->flush();
 
         $response = new JsonResponse(['status' => 'saved']);
-
         return $response;
+    }
+
+    /**
+     * @Route("/getLastStep/{gameInfoId}", name="getLastStep")
+     */
+    public function getLastStep($gameInfoId){
+        $serializer = $this->container->get('serializer');
+        $lastStep = $this->getDoctrine()
+            ->getRepository(GameLog::class)
+            ->getLastStep($gameInfoId);
+
+        return new JsonResponse($serializer->serialize($lastStep, 'json'));
     }
 }

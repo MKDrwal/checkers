@@ -19,6 +19,14 @@ class GameLogRepository extends ServiceEntityRepository
         parent::__construct($registry, GameLog::class);
     }
 
+    public function getLastStep($gameInfoId){
+        $queryBulider = $this->createQueryBuilder('gl')
+            ->orderBy('gl.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery();
+        return $queryBulider->execute();
+    }
+
     // /**
     //  * @return GameLog[] Returns an array of GameLog objects
     //  */

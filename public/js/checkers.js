@@ -13,8 +13,23 @@ $(function() {
     gameInfo = getCookie('gameinfo');
     gameInfo = JSON.parse(gameInfo);
 
-    startNewGame();
+    startGame();
 
+});
+
+async function startGame() {
+    await getLastLog();
+
+    if(lastLog === undefined) {
+        startNewGame();
+    } else {
+        generateBoardFromArray(lastLog.board);
+    }
+
+    addActionToPawn();
+}
+
+function addActionToPawn(){
     $('.pawn').click(function () {
         let pawn = $(this);
         let pawnRowId = pawn.closest('.row').index();
@@ -68,7 +83,7 @@ $(function() {
             });
         }
     });
-});
+}
 
 function setCookie(cname, arrayValue) {
     var d = new Date();
@@ -171,15 +186,27 @@ function changeSize() {
 
 }
 
-function saveLog() {
-    $.ajax({
-        type: 'POST',
-        data: {'gameLog': lastLog},
-        url: '/game/saveLog',
-        success:function(data) {
-            setCookie('gamelog', lastLog);
-        }
-    });
+async function saveLog() {
+    await $.ajax({
+            type: 'POST',
+            data: {'gameLog': lastLog},
+            url: '/game/saveLog',
+            success:function(data) {
+                setCookie('gamelog', lastLog);
+            }
+        });
+}
+
+async function getLastLog() {
+    await $.ajax({
+            type: 'POST',
+            url: '/game/getLastStep/' + gameInfo.id,
+            success:function(data) {
+                lastLog = JSON.parse(data)[0];
+                setCookie('gamelog', lastLog);
+                return lastLog;
+            }
+        });
 }
 
 function startNewGame(size = 3) {
@@ -226,7 +253,8 @@ function generateBoardFromArray(board) {
     board.forEach(function (row, rowId) {
         let fields = $(allRows[rowId]).children();
         row.forEach(function (field, fieldId) {
-            if(field){
+            field = parseInt(field);
+            if(field === 1 || field === 2){
                 $(fields[fieldId]).append('<div class="pawn '+ (field === 1 ? 'first' : 'second') +'"></div>')
             }
         });
